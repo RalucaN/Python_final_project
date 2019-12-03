@@ -2,6 +2,8 @@ import csv
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib import dates
 
 # Step 1 - Reading/importing the data set
 
@@ -66,11 +68,27 @@ def run ():
     print(data4.describe())
     print(data4["Year"].value_counts())
     print(data4["Author"].value_counts())
+    print(data4["Publisher"].value_counts())
+
+    pd.set_option('display.max_rows', 500)
+    pd.set_option('display.max_columns', 500)
+    pd.set_option('display.width', 1000)
+
+    correlations = data4.corr(method='pearson')
+    print(correlations)
+    print("start")
+    for col2 in list(data4.columns):
+        if col2.dtype == np.object:
+            print("this is an object")
+      #  else:
+       #     print(col.descriebe())
+    print("end")
 
     # b. Number of papers by author, year, publication, citations
     pub_year = data4["Year"].value_counts()
     sns.set(style="darkgrid")
-    sns.barplot(pub_year.index, pub_year.values, alpha=0.9)
+    ax=sns.barplot(pub_year.index, pub_year.values, alpha=0.9)
+    plt.xticks(rotation=90)
     plt.title('Publications by Year')
     plt.ylabel("Number of Publications", fontsize=12)
     plt.xlabel('Year', fontsize=12)
@@ -78,32 +96,10 @@ def run ():
 
 
 
+
+
     # c. Most cited authors etc.
 
 # Step 4 - Linear models
 
-# Step 5 - Machine learning
-    # a. Findings the top 2 most published authors
-    # b. Scraping the abstract of their papers
-    # c. Splitting the data set into testing and practice data based on ratio 40-60
-    # d. Based on similarity level - decide whether the practice data
-
 run()
-'''
-ALREADY USED:
-- for
-- libraries
-- comments
-- types of data: string versus integers
-- math operators
-- comparison and logical operators
-- api
-
-TO USE IN THIS PROJECT
-- if
-- variable
-- function
-- list and dictionary
-
-
-'''
