@@ -52,9 +52,6 @@ def run ():
     data2 = data_pd.loc[:, (sum_miss_data <= max_missing)]
     print(data2.columns)
 
-    #   null_data2 = data2[data2.isna().any(axis=1)]
-    #  print(null_data2)
-
     # Extracting the authors
     data3 = data2.Authors.str.split(', ', expand=True).stack().str.strip().reset_index(level=1, drop=True)
     data3 = pd.DataFrame(data3, columns=["Author"])
@@ -70,19 +67,14 @@ def run ():
     print(data4["Author"].value_counts())
     print(data4["Publisher"].value_counts())
 
+  
+    # correlation between the different types of data
     pd.set_option('display.max_rows', 500)
     pd.set_option('display.max_columns', 500)
     pd.set_option('display.width', 1000)
-
     correlations = data4.corr(method='pearson')
     print(correlations)
-    print("start")
-    for col2 in list(data4.columns):
-        if col2.dtype == np.object:
-            print("this is an object")
-      #  else:
-       #     print(col.descriebe())
-    print("end")
+    
 
     # b. Number of papers by author, year, publication, citations
     pub_year = data4["Year"].value_counts()
