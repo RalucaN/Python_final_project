@@ -76,22 +76,46 @@ def run ():
     print(correlations)
     
 
-    # b. Number of papers by author, year, publication, citations
-    pub_year = data4["Year"].value_counts()
+     # b. Number of papers by year
+    data5 = data4.dropna(subset=['Year'])
+    data5.loc[:, "Year_int"] = data5["Year"].astype(int)
+    pub_year = data5["Year_int"].value_counts()
     sns.set(style="darkgrid")
-    ax=sns.barplot(pub_year.index, pub_year.values, alpha=0.9)
+    ax= sns.barplot(pub_year.index, pub_year.values, alpha=0.9)
     plt.xticks(rotation=90)
     plt.title('Publications by Year')
     plt.ylabel("Number of Publications", fontsize=12)
     plt.xlabel('Year', fontsize=12)
     plt.show()
 
+    # c. Age vs Cites
+    x = data5["Age"]
+    y = data5["Cites"]
+    plt.scatter(x, y, s=5, c='r')
+    plt.title('Age vs Cites')
+    plt.xlabel('Age of the publication')
+    plt.ylabel('Cites')
+    plt.show()
 
+ # Step 4 - Linear model
+    x = sm.add_constant(x)  # adding the constant
+    model = sm.OLS(y, x).fit()
+    predictions = model.predict(x)
+    print_model = model.summary()
+    print(print_model)
 
-
-
-    # c. Most cited authors etc.
-
-# Step 4 - Linear models
+    #Plot with predicted values
+    plt.style.use('seaborn')
+    fix, ax = plt.subplots()
+    ax.scatter(data5['Age'], predictions, alpha=0.5,
+               label='predicted')
+    # Plot observed values
+    ax.scatter(data5['Age'], data5['Cites'], alpha=0.5,
+               label='observed')
+    ax.legend()
+    ax.set_title('OLS predicted values')
+    ax.set_xlabel('Age of the publication')
+    ax.set_ylabel('Cites')
+    plt.show()
 
 run()
