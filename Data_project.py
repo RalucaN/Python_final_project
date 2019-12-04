@@ -2,8 +2,8 @@ import csv
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-import numpy as np
-from matplotlib import dates
+import statsmodels.api as sm
+
 
 # Step 1 - Reading/importing the data set
 
