@@ -112,7 +112,10 @@ def run ():
     predictions = model.predict(x2)
     print_model = model.summary()
     print(print_model)
+    
+    fig = plt.figure(figsize=(10, 6))
     sns.regplot(x, y, line_kws={"color": "r", "alpha": 0.7, "lw": 5})
+    fig.legend(labels=['Predicted', 'Observed'])
     plt.legend(loc="upper right")
     plt.title('OLS predicted values')
     plt.xlabel('Age of the publication')
